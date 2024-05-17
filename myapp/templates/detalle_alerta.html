@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Alerta</title>
+</head>
+<body>
+    <h1>Detalle de Alerta</h1>
+    <p>{{ alerta.mensaje }}</p>
+    <p>{{ alerta.fecha_creacion }}</p>
+    <!-- Agrega más detalles de la alerta si es necesario -->
+    
+    <!-- Botón "Listo" -->
+    <a href="{% url 'marcar_alerta' alerta.id %}">
+        <button>Listo</button>
+    </a>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Alerta</title>
+</head>
+<body>
+    <h1>Crear Alerta</h1>
+    <p>El ID del usuario es: {{ user_id }}</p>
+    <form method="post" action="{% url 'guardar_alerta' %}">
+        {% csrf_token %}
+        <input type="hidden" name="user_id" value="{{ user_id }}"> <!-- Campo oculto para enviar el ID del usuario -->
+        <label for="mensaje">Mensaje:</label><br>
+        <input type="text" id="mensaje" name="mensaje"><br>
+        <button type="submit">Crear Alerta</button>
+    </form>
+</body>
+</html>

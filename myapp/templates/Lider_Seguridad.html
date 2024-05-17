@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lider de Seguridad</title>
+    <style>
+        /* Estilos CSS */
+        .notification-bar {
+            background-color: #f44336; /* Rojo */
+            color: white;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .notification-dropdown {
+            display: none;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            position: absolute;
+            min-width: 160px;
+            z-index: 1;
+        }
+        .notification-dropdown a {
+            color: black;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+        }
+        .notification-dropdown a:hover {
+            background-color: #f1f1f1;
+        }
+        /* Estilos adicionales para ocultar la lista cuando se muestra un detalle */
+        .notification-dropdown.show-details {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="notification-bar" onclick="toggleDropdown()">
+        Alertas Pendientes
+    </div>
+    <div class="notification-dropdown" id="dropdown">
+        {% if alertas_pendientes %}
+            <ul>
+                {% for alerta in alertas_pendientes %}
+                    <li>
+                        <form id="form-alerta-{{ alerta.id }}" action="{% url 'marcar_alerta' alerta.id %}" method="post" onsubmit="mostrarDetalleAlerta(event, '{{ alerta.id }}')">
+                            {% csrf_token %}
+                            <input type="hidden" name="alerta_id" value="{{ alerta.id }}">
+                            <button type="submit">{{ alerta.mensaje }}</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No hay alertas pendientes.</p>
+        {% endif %}
+    </div>
+    <div id="detalle-alerta-container"></div>
+
+    <script>
+        function toggleDropdown() {
+            var dropdown = document.getElementById("dropdown");
+            if (dropdown.style.display === "none") {
+                dropdown.classList.remove("show-details"); // Asegúrate de ocultar la lista cuando se cierra el menú
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
+        }
+
+        const detalleAlertaURL = "{% url 'detalle_alerta' 0 %}";
+
+        function mostrarDetalleAlerta(event, alertaId) {
+            event.preventDefault();
+            
+            fetch(detalleAlertaURL.replace('0', alertaId))
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('detalle-alerta-container').innerHTML = data;
+                var dropdown = document.getElementById("dropdown");
+                dropdown.style.display = "none"; // Oculta la lista cuando se muestra un detalle
+                dropdown.classList.add("show-details"); // Agrega una clase para identificar que se mostraron los detalles
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

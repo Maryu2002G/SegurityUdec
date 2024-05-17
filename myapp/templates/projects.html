@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>estamos en el proyecto de {{ proyecto }}</h1>
+    <div>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore corrupti dolore ab ea, eum laudantium ipsa qui magni temporibus. Dignissimos, illum eveniet? Placeat, commodi accusantium sunt cupiditate ab rem aliquid.
+    </div>
+
+    {% for project in proyecto %}
+
+    <h1>{{ project.name }}</h1>
+
+    {% endfor %}
+</body>
+</html>
